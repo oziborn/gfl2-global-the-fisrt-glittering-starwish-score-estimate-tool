@@ -10,13 +10,13 @@
 
 <body>
   <div class="w-full h-full bg-gray-200">
-    <div class="max-w-[1100px]">
-      <div class="mx-4 flex flex-col">
+    <div class="flex justify-center ">
+      <div class="mx-4 flex flex-col max-w-[1100px]">
         <h1 class="text-3xl font-bold underline"> 第1回 スターリーウィッシュ スコア試算ツール </h1>
         <h1 class="text-3xl font-bold underline"> GFL2 The first Glittering Starwish Score Estimate Tool </h1>
         <div class="mt-10">
-          <details class="cursor-pointer">
-            <summary>注意事項 Attention</summary>
+          <details>
+            <summary class="cursor-pointer">注意事項 Attention</summary>
             <ul class="list-disc ml-5">
               <li>このツールはあくまで <b>試算</b> だよ。正確なスコアを計算するためのものじゃないよ。</li>
               <li>This tool calc <b>estimate score.</b> Not show exact score.</li>
@@ -28,50 +28,63 @@
           </details>
         </div>
 
-        <div class="bg-white rounded-sm mt-10 p-4">
-          <div class="bg-gray-50 border-1 border-gray-100 rounded-md p-2">
-            <div class="mb-4">
-              <label for="before-day-total-penlight" class="block mb-2.5 text-sm font-medium text-heading">前日の累計助力
-                What english "累計助力" ?, "Total PenLight" ? </label>
-              <input type="number" id="before-day-total-penlight"
-                class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-                placeholder="650" required />
-            </div>
-            <div class="mb-4">
-              <b for="before-day-total-score"
-                class="block mb-2.5 text-sm font-medium text-heading"><b>前日までのペンライト獲得した分の</b>累計スコア
-                The cumulative score of the penlights acquired up to the previous day</label>
+        <div class="flex justify-center">
+          <div class="bg-gray-50 rounded-sm mt-10 p-4 w-full">
+            <div class="bg-white border-1 border-gray-100 rounded-md p-2">
+              <div class="mb-4">
+                <label for="before-day-total-penlight" class="block mb-2.5 text-sm font-medium text-heading">前日の累計助力
+                  Yesterday total PenLights </label>
+                <input type="number" id="before-day-total-penlight"
+                  class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+                  placeholder="650" required />
+              </div>
+              <div class="mb-4">
+                <label for="before-day-total-score" class="block mb-2.5 text-sm font-medium text-heading">前日の累計スコア
+                  Yesterday total score</label>
                 <input type="number" id="before-day-total-score"
                   class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
                   placeholder="200000" required />
-                <p>累計スコア報酬のペンライトを取得していない場合は0でOK</p>
+              </div>
+              <div class="flex items-center">
+                <input id="not-yet-get-bonus" type="checkbox"
+                  class="cursor-pointer w-4 h-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft">
+                <label for="not-yet-get-bonus"
+                  class="cursor-pointer select-none ms-2 text-sm font-medium text-heading">累計スコア報酬を取得していない
+                  I haven't taken total score bonus PenLights</label>
+              </div>
+              <p><u>※「150,000の報酬だけ獲得した」等の部分的な累計スコア報酬獲得には対応していません。</u></br><u>「全部受け取った or 1つも受け取っていない」で判断してください。</u></p>
+              <div class="my-4">
+                <label for="score" class="block mb-2.5 text-sm font-medium text-heading">今日のスコア Today Score</label>
+                <input type="number" id="score"
+                  class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+                  placeholder="4800" required />
+              </div>
+              <div class="mb-4">
+                <label for="play-num" class="block mb-2.5 text-sm font-medium text-heading">挑戦回数 Number of
+                  play</label>
+                <input type="number" id="play-num"
+                  class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+                  placeholder="30" required />
+              </div>
+              <button id="calc-btn"
+                class="mb-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                計算する Calc
+              </button>
+              <hr />
+              <p>本日の合計スコア(Today total score) = <span id="today-total-score"></span></p>
+              <p>累計スコア(total score) = <span id="total-score"></span></p>
+              <hr />
+              <p>本日の挑戦による助力報酬1回分(Today PenLights once by Yuzhong Robot) = <span id="today-penlights-once"></span></p>
+              <p>本日の挑戦による助力報酬合計(Today PenLights total by Yuzhong Robot) = <span id="today-penlights-total"></span></p>
+              <p>本日の累計スコアの助力報酬(Today PenLights by total score bonus) = <span id="today-penlights-bonus"></span></p>
+              <hr />
+              <p>前日の累計助力 + 本日の獲得助力(挑戦) (Without bonus PenLights) = <span id="without-bonus-penlights"></span></p>
+              <p>前日の累計助力 + 本日の獲得助力(挑戦+累計スコア) (With bonus PenLights) = <span id="with-bonus-penlights"></span></p>
+              <hr />
             </div>
-            <div class="mb-4">
-              <label for="score" class="block mb-2.5 text-sm font-medium text-heading">今日のスコア Today Score</label>
-              <input type="number" id="score"
-                class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-                placeholder="4800" required />
-            </div>
-            <div class="mb-4">
-              <label for="play-num" class="block mb-2.5 text-sm font-medium text-heading">挑戦回数 Number of
-                play</label>
-              <input type="number" id="play-num"
-                class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-                placeholder="30" required />
-            </div>
-            <button id="calc-btn" value="day1"
-              class="mb-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              計算する Calc
-            </button>
-            <p>本日の累計スコアなし獲得助力 Today PenLight without total bonus: <span id="without-total-score"></span></p>
-            <p>前日の累計助力と合算 Sum yesterday PenLight: <span id="sum-without-total-score"></span></p>
-            </br>
-            <p>本日の累計スコアによる獲得助力 Today PenLight total bonus: <span id="total-score"></span></p>
-            <p>本日の累計スコアあり獲得助力 Today PenLight with total bonus: <span id="with-total-score"></span></p>
-            <p>前日の累計助力と合算 Sum yesterday PenLight: <span id="sum-with-total-score"></span></p>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
   </div>
@@ -129,17 +142,20 @@
 
   function handleCalc() {
     /** 画面入力値 */
-    const beforeDayTotalPenLight = Number(document.getElementById("before-day-total-penlight").value)
-    const beforeDayTotalScore = Number(document.getElementById("before-day-total-score").value)
+    const prevPens = Number(document.getElementById("before-day-total-penlight").value)
+    const prevTotalScore = Number(document.getElementById("before-day-total-score").value)
+    const notYetGetTotalScore = document.getElementById("not-yet-get-bonus").checked
     const todayScore = Number(document.getElementById("score").value)
     const playNum = Number(document.getElementById("play-num").value)
 
     /** 経験結果の出力先 HTMLElement 要素 */
-    const withoutTotalScoreElm = document.getElementById("without-total-score")
-    const sumWithoutTotalScoreElm = document.getElementById("sum-without-total-score")
+    const todayTotalScoreElm = document.getElementById("today-total-score")
     const totalScoreElm = document.getElementById("total-score")
-    const withTotalScoreElm = document.getElementById("with-total-score")
-    const sumWithTotalScoreElm = document.getElementById("sum-with-total-score")
+    const todayPensOnceElm = document.getElementById("today-penlights-once")
+    const todayPensTotalElm = document.getElementById("today-penlights-total")
+    const todayPensBonusElm = document.getElementById("today-penlights-bonus")
+    const withoutBonusPensElm = document.getElementById("without-bonus-penlights")
+    const withBonusPensElm = document.getElementById("with-bonus-penlights")
 
     try {
       /** 4800以下のスコアで得られるペンライト */
@@ -150,19 +166,23 @@
       const todayPenLightOnce = todayPenLightBase + (todayPenLightBonus > 0 ? todayPenLightBonus : 0)
       /** 本日のペンライト（助力）の合計 */
       const todayPenLight = todayPenLightOnce * playNum
-      withoutTotalScoreElm.textContent = `${todayPenLight}`
-      sumWithoutTotalScoreElm.textContent = `${beforeDayTotalPenLight + todayPenLight + DAILY_SHARE_BONUS_SCORE}`
-
-      /** 未獲得の累計スコアによるペンライト一覧 */
-      const unobtainedBonusPenLights = TOTAL_SCORE_BONUS.filter(v => v.TOTAL_SCORE > beforeDayTotalScore)
+      /** 本日の合計スコア */
+      const todayTotalScore = todayScore * playNum
       /** 現在の累計スコア */
-      const todayAddPrevDayScore = beforeDayTotalScore + todayScore * playNum
+      const todayAddPrevDayScore = prevTotalScore + todayTotalScore
+      /** 未獲得の累計スコアによるペンライト一覧 */
+      const TABLE = notYetGetTotalScore ? TOTAL_SCORE_BONUS : TOTAL_SCORE_BONUS.filter(v => v.TOTAL_SCORE > prevTotalScore)
       /** 本日、獲得できる累計スコアによるペンライト一覧 */
-      const todayCanGetBonusPenLight = unobtainedBonusPenLights.filter(v => v.TOTAL_SCORE < todayAddPrevDayScore).reduce((sum, item) => sum + item.PEN_LIGHT, 0)
-      totalScoreElm.textContent = `${todayCanGetBonusPenLight}`
-      withTotalScoreElm.textContent = `${todayPenLight + todayCanGetBonusPenLight}`
-      sumWithTotalScoreElm.textContent = `${beforeDayTotalPenLight + todayPenLight + DAILY_SHARE_BONUS_SCORE + todayCanGetBonusPenLight}`
+      const todayCanGetBonusPenLight = TABLE.filter(v => v.TOTAL_SCORE < todayAddPrevDayScore).reduce((sum, item) => sum + item.PEN_LIGHT, 0)
 
+      /** 計算結果の画面表示 */
+      todayTotalScoreElm.textContent = `${todayTotalScore}`
+      totalScoreElm.textContent = `${todayAddPrevDayScore}`
+      todayPensOnceElm.textContent = `${todayPenLightOnce}`
+      todayPensTotalElm.textContent = `${todayPenLight}`
+      todayPensBonusElm.textContent = `${todayCanGetBonusPenLight}`
+      withoutBonusPensElm.textContent = `${prevPens + todayPenLight + DAILY_SHARE_BONUS_SCORE}`
+      withBonusPensElm.textContent = `${prevPens + todayPenLight + todayCanGetBonusPenLight + DAILY_SHARE_BONUS_SCORE}`
     } catch (error) {
       window.alert(`エラー。 ${error.name}, ${error.message}`);
     }
